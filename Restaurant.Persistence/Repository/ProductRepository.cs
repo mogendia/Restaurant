@@ -23,9 +23,18 @@ namespace Restaurant.Infracture.Repository
             return isDelete;
         }
 
-        public async Task<List<Product>> GetAllProduct()
+        public async Task<PaginationResult<Product>> GetAllProduct(PaginationParameters pagination)
         {
-            return await _context.Products.Include(x => x.Category).ToListAsync();
+            var totalCount = await _context.Products.CountAsync();
+            var products = await _context.Products.Skip
+                (
+                (pagination.PageNumber - 1) * pagination.PageSize
+                ).Take(pagination.PageSize).ToListAsync();
+            return new PaginationResult<Product>
+            {
+                TotalCount = totalCount,
+                Result = products
+            };
         }
 
         public async Task<Product> GetAllProductById(int id)

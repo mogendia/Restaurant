@@ -10,7 +10,7 @@ namespace Restaurant.Domain.Repositories
 {
     public interface IProductRepository
     {
-        Task<List<Product>> GetAllProduct();
+        Task<PaginationResult<Product>> GetAllProduct(PaginationParameters pagination);
         Task<Product> GetAllProductById(int id);
         Task<Product> UpdateProduct(Product product);
         Task<Product> DeleteProduct(int id);

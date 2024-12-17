@@ -6,6 +6,7 @@ using Restaurant.Application.Features.Products.Queries.GetProductsById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Restaurant.Domain.Entities;
 
 namespace Restaurant.Api.Controllers
 {
@@ -16,9 +17,9 @@ namespace Restaurant.Api.Controllers
     public class ProductController(IMediator _mediator) : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts([FromQuery] PaginationParameters pagination)
         {
-            return Ok(await _mediator.Send(new GetAllProductsQuery()));
+            return Ok(await _mediator.Send(new GetAllProductsQuery() { Pagination = pagination }));
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id)

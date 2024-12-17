@@ -27,6 +27,9 @@ namespace Restaurant.Application.Mapper
             CreateMap<Product, CreateProductCommand>().ReverseMap();
             CreateMap<Product, UpdateProductCommand>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<PaginationResult<Product>, PaginationResultDto<ProductDto>>().ReverseMap()
+                .ForMember(dest=>dest.Result, option=>option.MapFrom(src=>src.Result))
+                .ForMember(dest=>dest.TotalCount, option=>option.MapFrom(src=>src.TotalCount));
             // cart mappping
             CreateMap<Cart, CartDto>().ReverseMap();
             CreateMap<Cart, CreateCartCommand>().ReverseMap();
