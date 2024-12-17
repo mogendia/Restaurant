@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Restaurant.Domain.Entities;
 
 
 namespace Restaurant.Infracture
@@ -17,7 +19,7 @@ namespace Restaurant.Infracture
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
-
+            
         services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme =JwtBearerDefaults.AuthenticationScheme;
@@ -34,6 +36,14 @@ namespace Restaurant.Infracture
                     ValidIssuer = config["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:Key"]))
                 };
+            });
+            services.Configure<IdentityOptions>(options => {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 4;
+                options.SignIn.RequireConfirmedEmail = true;
             });
 
             services.AddAuthorization(options =>

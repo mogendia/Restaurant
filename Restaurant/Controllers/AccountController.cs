@@ -62,13 +62,38 @@ namespace Restaurant.Api.Controllers
                 Email = dto.Email,                
             };
             var result = await _user.CreateAsync(user, dto.Password);
-            if (result.Succeeded) return Ok(result);
+            if (result.Succeeded)
+            {
+                var code = await _user.GenerateEmailConfirmationTokenAsync(user);
+                return Ok(new {message=$"Please Confirm Your Email Whth Code You Have Recieved ",code});
+
+            };
             foreach (var item in result.Errors)
             {
                 ModelState.AddModelError("Password", item.Description);
             }
             return BadRequest(ModelState);
 
+        }
+
+        [HttpPost("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail ( string? email , string? code)
+        {
+            if (email == null || code == null)
+            {
+                return BadRequest("In-Valid Data");
+            }
+            var user = await _user.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return BadRequest("In-Valid User");
+            }
+            var result = await _user.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                return Ok("Email Confirmed");
+            }
+            return BadRequest("Some Thing Went Wrong");
         }
 
         [HttpPost("Login")]
