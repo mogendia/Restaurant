@@ -129,8 +129,34 @@ namespace Restaurant.Api.Controllers
             return BadRequest(ModelState);
         }
 
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var user = await _user.FindByEmailAsync(dto.Email);
+            if(user == null) return BadRequest("User Not Found");
+            var token = await _user.GeneratePasswordResetTokenAsync(user);
+            return Ok(new
+            {
+                token,
+                email = user.Email
+            });
+        }
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var user = await _user.FindByEmailAsync(dto.Email);
+            if (user == null) return BadRequest("InValid Data");
+            var result = await _user.ResetPasswordAsync(user,dto.Token,dto.Password);
+            if (result.Succeeded) 
+                return Ok("Password Reset Successfully");
+
+            return BadRequest("Some Thing Went Wrong");
+        }
+
         [HttpPost("RefreshToken")]
-        public async Task<IActionResult> RefreshToken([FromBody] string token)
+        public async Task<IActionResult> RefreshToken(string token)
         {
             var user = await _user.Users.Include(x => x.RefreshTokens)
                 .FirstOrDefaultAsync(y => y.RefreshTokens.Any(z => z.Token == token));
