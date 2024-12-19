@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Restaurant.Application.Helper;
 using Restaurant.Domain.Entities;
 
 
@@ -19,7 +20,7 @@ namespace Restaurant.Infracture
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
-            
+
         services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme =JwtBearerDefaults.AuthenticationScheme;
@@ -44,6 +45,9 @@ namespace Restaurant.Infracture
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 4;
                 options.SignIn.RequireConfirmedEmail = true;
+                options.User.RequireUniqueEmail = true;
+                // make the code numbers
+                options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
             });
 
             services.AddAuthorization(options =>
@@ -53,7 +57,6 @@ namespace Restaurant.Infracture
 
 
             });
-
 
 
             services.AddTransient<ICartRepository, CartRepository>();
