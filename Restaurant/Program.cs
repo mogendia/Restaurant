@@ -4,7 +4,6 @@ using Restaurant.Infracture;
 using Restaurant.Infracture.Data;
 using Restaurant.Infracture.Repository;
 using Microsoft.AspNetCore.Identity;
-using Restaurant.Application.Helper;
 
 namespace Restaurant
 {
@@ -23,7 +22,7 @@ namespace Restaurant
                 .AddDefaultTokenProviders();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
-            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            
             builder.Services.AddProblemDetails();
             var app = builder.Build();
 
@@ -35,7 +34,6 @@ namespace Restaurant
             }
 
             app.UseHttpsRedirection();
-            app.UseExceptionHandler();
             app.UseAuthentication();
             app.UseAuthorization();
 

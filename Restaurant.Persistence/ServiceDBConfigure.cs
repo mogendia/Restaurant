@@ -8,8 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
-using Restaurant.Application.Helper;
-using Restaurant.Domain.Entities;
 
 
 namespace Restaurant.Infracture
