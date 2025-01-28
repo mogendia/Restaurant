@@ -4,6 +4,7 @@ using Restaurant.Infracture;
 using Restaurant.Infracture.Data;
 using Restaurant.Infracture.Repository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Restaurant
 {
@@ -31,6 +32,27 @@ namespace Restaurant
             {
                 app.MapOpenApi();
                 app.UseSwaggerUI(options=>options.SwaggerEndpoint("/openapi/v1.json","v1"));
+            }
+            
+            
+            if (app.Environment.IsDevelopment())
+            {
+                using var scope = app.Services.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                try
+                {
+                     //dbContext.Database.MigrateAsync();
+                    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+                    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                    AppIdentityDbContextSeed.SeedUserAsync(userManager, roleManager);
+                    AppIdentityDbContextSeed.EnsureRolesAsync(roleManager);
+                }
+                catch (Exception ex)
+                {
+                    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred during migration seeding.");
+                    Console.WriteLine($"An error occurred while applying migrations: {ex.Message}");
+                }
             }
 
             app.UseHttpsRedirection();

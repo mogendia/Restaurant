@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Restaurant.Domain.Entities
 {
-    public class Category
+    public class Category : BaseEntity
     {
-        public int Id { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
         public ICollection<Product> Product { get; set; }
+
     }
 }

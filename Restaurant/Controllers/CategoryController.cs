@@ -10,9 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Restaurant.Api.Controllers
 {
     [Authorize(AuthenticationSchemes ="Bearer",Policy = "AdminsOnly")]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CategoryController(IMediator _mediator) : ControllerBase
+    public class CategoryController(IMediator _mediator) : BaseApiController
     {
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
@@ -39,8 +37,8 @@ namespace Restaurant.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory([FromRoute] DeleteCatCommand command)
         {
-            await _mediator.Send(command);
-            return Ok(_mediator.Send(GetAllCategories()));
+            return Ok(await _mediator.Send(command));
+            
         }
         
     }

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Restaurant.Application.Mapper
 {
     public class ProfileMapping : Profile
@@ -34,7 +35,7 @@ namespace Restaurant.Application.Mapper
             CreateMap<Cart, CartDto>().ReverseMap();
             CreateMap<Cart, CreateCartCommand>().ReverseMap();
             CreateMap<Cart, UpdateCartCommand>().ReverseMap();
-
+          
         }
     }
 }

@@ -7,14 +7,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
-using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 
 namespace Restaurant.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AccountController(IConfiguration _config,UserManager<User> _user): ControllerBase
+
+    public class AccountController(IConfiguration _config,UserManager<User> _user): BaseApiController
     {
         private string GenerateToken(User user)
         {
@@ -65,7 +63,7 @@ namespace Restaurant.Api.Controllers
             if (result.Succeeded)
             {
                 var code = await _user.GenerateEmailConfirmationTokenAsync(user);
-                return Ok(new {message=$"Please Confirm Your Email Whth Code You Have Recieved ",code});
+                return Ok(new {message=$"Please Confirm Your Email With Code You Have Received ",code});
 
             };
             foreach (var item in result.Errors)

@@ -8,6 +8,7 @@ namespace Restaurant.Infracture.Repository
     {
         public async Task<Product> CreateProduct(Product product)
         {
+
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
             return product;
@@ -26,10 +27,10 @@ namespace Restaurant.Infracture.Repository
         public async Task<PaginationResult<Product>> GetAllProduct(PaginationParameters pagination)
         {
             var totalCount = await _context.Products.CountAsync();
-            var products = await _context.Products.Skip
-                (
-                (pagination.PageNumber - 1) * pagination.PageSize
-                ).Take(pagination.PageSize).ToListAsync();
+            var products = await _context.Products
+              .Skip((pagination.PageNumber - 1) * pagination.PageSize)
+              .Take(pagination.PageSize)
+              .ToListAsync();
             return new PaginationResult<Product>
             {
                 TotalCount = totalCount,
@@ -40,7 +41,6 @@ namespace Restaurant.Infracture.Repository
         public async Task<Product> GetAllProductById(int id)
         {
             return await _context.Products.FindAsync(id);
-
         }
 
         public async Task<Product> UpdateProduct( Product product)

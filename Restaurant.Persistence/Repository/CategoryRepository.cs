@@ -20,7 +20,7 @@ namespace Restaurant.Infracture.Repository
             if (isDelete == null)
                 throw new Exception($"CategoryId not found {id}");
             _context.Categories.Remove(isDelete);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return isDelete;
         }
 

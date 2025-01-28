@@ -9,9 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Restaurant.Api.Controllers
 {
     [Authorize(AuthenticationSchemes ="Bearer", Policy = "EmployeesOnly")]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CartController(IMediator _mediator) : ControllerBase
+    public class CartController(IMediator _mediator) : BaseApiController
     {
         [HttpGet]
         public async Task<IActionResult> GetAllCarts() { 

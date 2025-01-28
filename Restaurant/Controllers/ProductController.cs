@@ -10,11 +10,9 @@ using Restaurant.Domain.Entities;
 
 namespace Restaurant.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+ 
     [Authorize(AuthenticationSchemes = "Bearer",Policy = "EmployeesOnly")]
-
-    public class ProductController(IMediator _mediator) : ControllerBase
+    public class ProductController(IMediator _mediator) : BaseApiController
     {
         [HttpGet]
         public async Task<IActionResult> GetAllProducts([FromQuery] PaginationParameters pagination)
@@ -45,8 +43,6 @@ namespace Restaurant.Api.Controllers
         {
             return Ok(await _mediator.Send(command));
         }
-      
-
       
     }
 }
