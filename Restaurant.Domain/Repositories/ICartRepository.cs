@@ -14,5 +14,14 @@ namespace Restaurant.Domain.Repositories
         Task<Cart> UpdateCart(Cart cart);
         Task<Cart> DeleteCart(int id);
         Task<Cart> CreateCart(Cart cart);
+        
+        /*
+         *  Task<Cart> CreateCartItem(string userId, int productId, int quantity);
+        Task<Cart> DeleteCart(int cartId);
+        Task<List<Cart>> GetAllCarts();
+        Task<Cart> GetCartById(int id);
+        Task<Cart> UpdateCartItem(int cartItemId, int quantity);
+         
+         */
     }
 }

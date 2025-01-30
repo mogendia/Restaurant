@@ -6,12 +6,17 @@ namespace Restaurant.Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public int Quantity { get; set; }
-        public double Price { get; set; }
-        public double TotalPrice { get; set; }
+        public decimal Price { get; set; }
         public int CategoryId { get; set; }
-        public virtual Category Category { get; set; }
-        public ICollection<Cart> Cart{ get; set; }
-      
+        public int CartId { get; set; }
+        public virtual Category Categories { get; set; }
+        public List<OrderItem> OrderItems { get; set; } = [];
+        public ICollection<CartItem> CartItems { get; set; } = [];
+        // public Cart Carts { get; set; }
+
+
+        //public decimal  => Quantity * Price;
+
 
     }
 }

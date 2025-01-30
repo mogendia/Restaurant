@@ -10,7 +10,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
         builder.HasOne<Category>()
           .WithMany()
-          .HasForeignKey(f => f.CategoryId).OnDelete(DeleteBehavior.NoAction);
+          .HasForeignKey(f => f.CategoryId)
+          .OnDelete(DeleteBehavior.Restrict);
+        
         builder.HasKey(c=>c.Id);
         builder.Property(x => x.Name)
                .HasColumnType("VARCHAR")
@@ -22,9 +24,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
                .IsRequired();
         builder.Property(x => x.Quantity).IsRequired();
         builder.Property(x => x.Price).IsRequired();
-        builder.Property(x => x.TotalPrice).IsRequired();
-        builder.Property(p => p.TotalPrice)
-            .HasComputedColumnSql("[Quantity]*[Price]");
-
+        //builder.Property(x => x.TotalPrice).IsRequired();
+        ////builder.Property(p => p.TotalPrice)
+        ////    .HasComputedColumnSql("[Quantity]*[Price]");
+        //builder.Ignore(x=>x.TotalPrice);
     }
 }

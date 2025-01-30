@@ -10,14 +10,23 @@ public class CartConfiguration : IEntityTypeConfiguration<Cart>
     {
         builder.HasKey(c=>c.Id);
         builder.Property(x => x.Quantity).IsRequired();
-        builder.Property(x => x.Price).IsRequired();
-        builder.Property(x => x.TotalPrice).IsRequired();
-        builder.Property(p => p.TotalPrice)
-            .HasComputedColumnSql("[Quantity]*[Price]");
+        // builder.Property(x => x.Price).IsRequired();
+        // builder.Property(x => x.TotalPrice).IsRequired();
+        // builder.Property(p => p.TotalPrice)
+        //     .HasComputedColumnSql("[Quantity]*[Price]");
 
-        builder.HasOne<Product>()
+        builder.HasMany<Product>()
+            .WithOne()
+            .HasForeignKey(f=>f.CartId)
+            .OnDelete(DeleteBehavior.Restrict); 
+        builder.HasOne<User>()
             .WithMany()
-            .HasForeignKey(f=>f.ProductId).OnDelete(DeleteBehavior.NoAction); 
+            .HasForeignKey(x=>x.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(c => c.CartItems)
+            .WithOne(c => c.Cart)
+            .HasForeignKey(c => c.CartId);
 
     }
 }

@@ -41,7 +41,7 @@ namespace Restaurant
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 try
                 {
-                     //dbContext.Database.MigrateAsync();
+                    //dbContext.Database.MigrateAsync();
                     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                     AppIdentityDbContextSeed.SeedUserAsync(userManager, roleManager);

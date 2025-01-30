@@ -51,6 +51,7 @@ namespace Restaurant.Infracture
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminsOnly", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("UsersOnly", policy => policy.RequireRole("User"));
                 options.AddPolicy("EmployeesOnly", policy => policy.RequireClaim("UserType", "Employee"));
 
 
@@ -60,6 +61,8 @@ namespace Restaurant.Infracture
             services.AddTransient<ICartRepository, CartRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+
             return services;
         }
     }
